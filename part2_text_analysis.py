@@ -2,7 +2,7 @@
 CSIS 4260 - Assignment 2
 Part 2 (step 2): text analysis of the scraped articles.
 
-Four algorithms are applied to every article:
+Four algorithms run over every article (all free, all local, no paid APIs):
 
   1. LexRank          - extractive summarization (produces the "summary")
   2. TextRank         - a second extractive summarizer, used to cross-check
@@ -13,12 +13,14 @@ Four algorithms are applied to every article:
                         technology/AI topic profile built from keywords
 
 The importance score combines relevance, coverage (article length) and
-sentiment magnitude, and takes the direction from VADER:
+sentiment magnitude, and takes its direction from VADER:
 
     score = direction * (0.5*relevance + 0.3*coverage + 0.2*|sentiment|) * 100
 
 so scores range from -100 (strongly negative, off-topic-ish) to
-+100 (strongly positive, very relevant).
++100 (strongly positive, very relevant). The weights are my judgment
+call: relevance matters most because the assignment asks for importance
+in the context of the topic.
 
 Outputs:
     articles.csv                 url / title / date / score / direction /
@@ -60,7 +62,7 @@ TOPIC_PROFILE = (
     "automation digital technology"
 )
 SUMMARY_SENTENCES = 3
-MAX_WORDS = 800  # a "full coverage" article length for the coverage factor
+MAX_WORDS = 800  # an article this long counts as "full coverage"
 
 
 def ensure_nltk_data():
@@ -173,7 +175,7 @@ def main():
     topic_vec = vectorizer.transform([TOPIC_PROFILE])
     rel = cosine_similarity(tfidf, topic_vec).ravel()
     for a, r in zip(articles, rel):
-        a["relevance"] = float(np.clip(r * 6, 0, 1))  # rescale: raw cosines are tiny
+        a["relevance"] = float(np.clip(r * 6, 0, 1))  # raw TF-IDF cosines come out tiny, so stretch to 0..1
 
     # ---------------- summaries (LexRank + TextRank cross-check) ----------------
     for a in articles:
@@ -203,7 +205,7 @@ def main():
     df = pd.DataFrame(rows).sort_values("score", key=abs, ascending=False)
     df.to_csv(CSV_PATH, index=False)
 
-    # agreement between the two summarizers (Jaccard on sentence words)
+    # agreement between the two summarizers (Jaccard overlap of their words)
     def jaccard(s1, s2):
         w1, w2 = set(s1.lower().split()), set(s2.lower().split())
         return len(w1 & w2) / len(w1 | w2) if w1 | w2 else 0.0

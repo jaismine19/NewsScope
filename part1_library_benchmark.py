@@ -2,18 +2,19 @@
 CSIS 4260 - Assignment 2
 Part 1: Web scraping - library research and benchmark.
 
-Compares two popular scraping approaches on the same target pages:
+I compared the two scraping approaches that are as different as it gets:
 
   1. requests + BeautifulSoup  (fetch HTML, parse the static DOM)
   2. Playwright                 (drive a real headless Chromium browser)
 
-Benchmarks:
-  A. Fetch the same 10 NPR article pages with each approach and measure
-     success rate, wall-clock time, bytes downloaded and extracted text.
+What I measured:
+  A. The same 10 NPR article pages fetched with each approach: success
+     rate, wall-clock time, bytes downloaded and extracted text.
   B. A JavaScript-rendering demo on a public test site
      (https://quotes.toscrape.com/js/): the quotes only appear after JS
-     runs, so BeautifulSoup sees zero quotes while Playwright sees all ten.
-     This shows exactly when a full browser is worth the extra cost.
+     runs, so BeautifulSoup sees zero quotes while Playwright sees all
+     ten. That single experiment shows exactly when a full browser is
+     worth the extra cost.
 
 Outputs:
     benchmarks/part1_results.json   raw measurements

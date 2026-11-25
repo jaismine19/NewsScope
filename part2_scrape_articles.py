@@ -1,17 +1,24 @@
 """
 CSIS 4260 - Assignment 2
-Part 2 (step 1): collect 50+ articles from NPR Technology.
+Part 2 (step 1): collect 55 articles from NPR.
 
-Uses requests + BeautifulSoup (the library recommended in Part 1) to:
-  1. collect article links from the section page (plus one more page of
-     the listing for good measure),
-  2. fetch each article and extract its title, date and body text.
+I picked requests + BeautifulSoup here because Part 1 showed it is ~2.8x
+faster on static sites like NPR. The scraper:
 
-Polite scraping: identifies itself with a normal browser user-agent,
-waits ~0.6 s between requests and only hits public pages once.
+  1. collects article links from three NPR sections (technology,
+     business, science). Why three sections instead of paginating one?
+     Because NPR's section pages quietly ignore the ?page= parameter -
+     every page returns the same first 24 articles. Walking three
+     sections was the simple way to get plenty of unique links.
+  2. fetches each article and extracts its title, date and body text,
+     skipping image captions and photo credits (my first summaries kept
+     quoting "hide caption" lines, so I filter them at the source now).
+
+I try to be a good citizen: normal browser user-agent, ~0.6 s between
+requests, and each public page is only visited once.
 
 The raw collection is cached in data/articles_raw.json so the text
-analysis step can be rerun without hitting the site again.
+analysis step can be rerun without touching the site again.
 
 Usage:
     .venv/bin/python part2_scrape_articles.py            # use cache if present
