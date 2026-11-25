@@ -2,6 +2,9 @@
 
 **CSIS 4260 — Assignment 2** · Student: **Jaismine Kaur**
 
+**Repository:** https://github.com/jaismine19/NewsScope (public — read access;
+shared with the instructor, saleemn@douglascollege.ca)
+
 This assignment had two parts: figure out how to scrape the web (and which tool
 to use), then actually scrape something and analyze it. I collected **55 recent
 articles from NPR's technology, business and science sections** and ran four
