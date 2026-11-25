@@ -1,0 +1,15 @@
+{
+  "n_articles": 55,
+  "score_range": [
+    -86.3,
+    98.8
+  ],
+  "positive": 46,
+  "negative": 9,
+  "mean_sentiment": 0.6475454545454545,
+  "mean_relevance": 0.27767272727272724,
+  "mean_summary_words": 71.69090909090909,
+  "lexrank_textrank_mean_jaccard": 0.37772559829773983,
+  "topic": "technology",
+  "score_formula": "direction * (0.5*relevance + 0.3*coverage + 0.2*|sentiment|) * 100"
+}
